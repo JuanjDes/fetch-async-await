@@ -111,10 +111,9 @@ header {
     height: 150px;
   }
 
-  /* .nombre-pokemon-card {
-    margin-top: 10px;
+  /* estilos para los párrafos de del pokemon-card */
+  p {
+    margin: 1px 0;
     font-size: 14px;
-    text-align: center;
     color: #333;
-    font-weight: bold;
-  } */
+  }

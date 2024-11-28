@@ -44,6 +44,13 @@ const resetBtn = document.getElementById('resetBtn');
         getPokemons(currentPage);
     });
 
+// --------------------------------------------- AL RECARGAR LA PAGINA BORRAMOS TODOS LOS DATOS ----------------------
+    window.addEventListener('beforeunload', () => {
+        currentPage = 1;
+        document.getElementById('searchInput').value = '';
+        document.getElementById('app').innerHTML = '';
+    });
+
 
 
 
@@ -52,17 +59,17 @@ const resetBtn = document.getElementById('resetBtn');
         try {
             valorBuscaPokemon.value = valorBuscaPokemon.value.toLowerCase();  // pasamos nombre del pokemon introducido a minusculas
 
-            if (valorBuscaPokemon.value === undefined || valorBuscaPokemon.value === '') {
+            if (valorBuscaPokemon.value === undefined || valorBuscaPokemon.value === '') {  // si no introducimos nada en busqueda
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=12&offset=${page}`);
                 if (!response.ok) {
                     throw new Error('Error al obtener los datos');
                 }
                 const data = await response.json();
-                todosPokemon(data);  // si no he introducido un pokemon, muestra los 50 primeros
-            } else {  // si he introducido un pokemon, no llama a la funcion mostrarImagenes() y muestra el pokemon introducido
+                todosPokemon(data);
+            } else {  // si he introducido un pokemon llama a la funcion unPokemon() y muestra el pokemon introducido
                     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${valorBuscaPokemon.value}`);
                     if (!response.ok) {
-                        throw new Error('Error al obtener los datos');
+                        throw new Error('Error al obtener los datos. El Pokemon no existe');
                     }
                     const data = await response.json();
                     unPokemon(data);
@@ -70,6 +77,7 @@ const resetBtn = document.getElementById('resetBtn');
 
         } catch (error) {
             console.error('Error:', error);
+            alert(error);  // muestra el error en pantalla
         }
     }
 
@@ -81,12 +89,20 @@ const resetBtn = document.getElementById('resetBtn');
         
         for (let i = 0; i < data.results.length; i++) {
             try {
-                const response = await fetch(data.results[i].url);  // Hacer fetch a la URL del Pokémon
-                const pokemonData = await response.json();  // De la url del pokemon traemos todos los datos
-          
+                const response = await fetch(data.results[i].url);  // Hacer fetch al Pokémon [i]
+                const pokemonData = await response.json();  // De la url del pokemon[i] traemos todos los datos
+
                 const pokemonCard = document.createElement('div');
                 const img = document.createElement('img');
                 const nombre = document.createElement('h3');
+
+                // altura y peso del pokemon
+                const altura = document.createElement('p');
+                const peso = document.createElement('p');
+                altura.classList.add('datos-pokemon');
+                peso.classList.add('datos-pokemon');
+                altura.textContent = `Altura: ${pokemonData.height} cm`;
+                peso.textContent = `Peso: ${(pokemonData.weight / 100).toFixed(1)} kg`;
                 
                 pokemonCard.classList.add('pokemon-card');  // Clase para dar estilo a la tarjeta del Pokémon
                 img.classList.add('imagen-pokemon');
@@ -98,6 +114,8 @@ const resetBtn = document.getElementById('resetBtn');
 
                 imgContainer.appendChild(pokemonCard);
                 pokemonCard.appendChild(img);
+                pokemonCard.appendChild(altura);
+                pokemonCard.appendChild(peso);
                 pokemonCard.appendChild(nombre);
 
               } catch (error) {
@@ -106,10 +124,7 @@ const resetBtn = document.getElementById('resetBtn');
         }
     }
 
-    function mostrarPokemons(data) {
-        const imgContainer = document.getElementById('app');
-        imgContainer.innerHTML = '';  // Limpiar el div para que no se muestren imágenes anteriores
-    }
+    
 
 // ------------------------------------------------ FUNCION PARA MOSTRAR POKEMON BUSCADO --------------------------------------
     async function unPokemon(data) {
@@ -117,6 +132,14 @@ const resetBtn = document.getElementById('resetBtn');
         const imgContainer = document.getElementById('app');  // consigo el div del HTML
         imgContainer.innerHTML = '';  // Limpiar el div para que no se muestren imágenes anteriores
 
+        // altura y peso del pokemon
+        const altura = document.createElement('p');
+        const peso = document.createElement('p');
+        altura.classList.add('datos-pokemon');
+        peso.classList.add('datos-pokemon');
+        altura.textContent = `Altura: ${data.height} cm`;
+        peso.textContent = `Peso: ${(data.weight / 100).toFixed(1)} kg`;
+        
         const pokemonCard = document.createElement('div');
         const img = document.createElement('img');
         const nombre = document.createElement('h3');
@@ -131,5 +154,7 @@ const resetBtn = document.getElementById('resetBtn');
 
         imgContainer.appendChild(pokemonCard);
         pokemonCard.appendChild(img);
+        pokemonCard.appendChild(altura);
+        pokemonCard.appendChild(peso);
         pokemonCard.appendChild(nombre);
     }
