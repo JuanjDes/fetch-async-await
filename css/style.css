@@ -36,7 +36,7 @@ header {
   border-radius: 4px;
 }
 
-#searchBtn, #prevBtn, #nextBtn, #resetBtn {
+#searchBtn, #prevBtn, #nextBtn, #resetBtn, #misPokemonBtn, #volver {
   margin: 10px 0;
   padding: 10px;
   border: none;
@@ -49,15 +49,30 @@ header {
   color: white;
 }
 
-#prevBtn, #nextBtn, #resetBtn {
+#prevBtn, #nextBtn, #resetBtn, #misPokemonBtn, #volver {
   background-color: #2196F3;
   color: white;
 }
 
-#searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover {
+#searchBtn:hover, #prevBtn:hover, #nextBtn:hover, #resetBtn:hover,
+  #misPokemonBtn:hover, #volver {
   opacity: 0.8;
 }
 
+/* boton misPokemonBtn alinado a la derecha */
+ #misPokemonBtn {
+  position: absolute;
+  right: 20px;
+}
+
+/* boton volver al principio alinado al centro */
+ #volver {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* tarjetas de pokemon */
 #app {
   display: flex;
   justify-content: center;
@@ -86,6 +101,7 @@ header {
 /* seleccionamos pokemon y aparece el seleccionado */
   .pokemon-card {
     /* estilos para cada tarjeta de pokemon */
+    position: relative;  /* necesario para posicionar despues el tooltip (texto) respecto a pokemon-card */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -96,11 +112,41 @@ header {
     border: 1px solid black;
     border-radius: 5px;
     /* fondo bonito y suave para la card */
-    background-color: #f8f9fa;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background-color 0.3s;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* Hace que el cursor cambie al ícono de clic */
+    transition: transform 0.2s, background-color 0.2s;
   }
+
+  .pokemon-card:hover {
+    transform: scale(1.05); /* Efecto visual al pasar el mouse */
+    background-color: #f8f8f8;
+  }
+
+  /* tooltip: avisa que haciendo click se guarda el pokemon  */
+  .pokemon-card::after {
+    content: "Click para guardar/borrar el pokemon";
+    position: absolute; /* se posiciona respecto a pokemon-card */
+    bottom: -25px;  /* justo debajo de la tarjeta del pokemon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0; /* Oculto por defecto */
+    pointer-events: none; /* No interfiere con el clic */
+    transition: opacity 0.3s ease-in-out;
+  }
+
+/* mostrar el tooltip al pasar el raton por la tarjeta del pokemon */
+  .pokemon-card:hover::after {
+    opacity: 1;
+  }
+
+/* estilos para las tarjetas de pokemon en mis pokemon */
 
   .imagen-pokemon-card {
     /* una sola imagen de un pokemon dentro de un div */
@@ -111,9 +157,10 @@ header {
     height: 150px;
   }
 
-  /* estilos para los párrafos de del pokemon-card */
+  /* estilos para los párrafos del pokemon-card */
   p {
     margin: 1px 0;
     font-size: 14px;
     color: #333;
   }
+
