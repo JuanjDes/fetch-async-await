@@ -113,7 +113,15 @@ const resetBtn = document.getElementById('resetBtn');
                 altura.textContent = `Altura: ${pokemonData.height} cm`;
                 peso.textContent = `Peso: ${(pokemonData.weight / 100).toFixed(1)} kg`;
 
-                // guardo en pokemon los datos del pokemon: nombre, altura, peso e imagen
+                // añado los elementos al div principal
+                imgContainer.appendChild(pokemonCard);
+                pokemonCard.appendChild(img);
+                pokemonCard.appendChild(altura);
+                pokemonCard.appendChild(peso);
+                pokemonCard.appendChild(nombre);
+
+                /* guardo en pokemon los datos del pokemon: nombre, altura, peso e imagen
+                   const pokemon lo utilizo en el evento click */
                 const pokemon = {
                     nombre: pokemonData.name,
                     altura: pokemonData.height,
@@ -121,18 +129,10 @@ const resetBtn = document.getElementById('resetBtn');
                     imagen: pokemonData.sprites.other['official-artwork'].front_default,
                 };
 
-                /* // añado un evento al hacer click en la imagen del pokemon
-                img.addEventListener('click', () => guardarPokemon(pokemon)); */
-
                 // asignamos un evento al hacer click en la tarjeta del pokemon
                 pokemonCard.addEventListener('click', () => guardarPokemon(pokemon));
 
-                // añado los elementos al div principal
-                imgContainer.appendChild(pokemonCard);
-                pokemonCard.appendChild(img);
-                pokemonCard.appendChild(altura);
-                pokemonCard.appendChild(peso);
-                pokemonCard.appendChild(nombre);
+                
 
               } catch (error) {
                 console.error(`Error al obtener datos del Pokémon ${data.results[i].name}:`, error);
@@ -178,15 +178,12 @@ const resetBtn = document.getElementById('resetBtn');
 // ------------------------------------------------ FUNCION PARA GUARDAR EL POKEMON SELECCIONADO ------------------------------
     function guardarPokemon(pokemon) {
         let pokemonsGuardados = JSON.parse(localStorage.getItem('pokemons')) || [];
-        console.log('pokemonsGuardados', pokemonsGuardados);
-        //console.log(pokemonsGuardados);
 
         // verificamos si el pokemon ya está guardado
         if (!pokemonsGuardados.some((p) => p.nombre === pokemon.nombre)) {
             pokemonsGuardados.push(pokemon);
             localStorage.setItem('pokemons', JSON.stringify(pokemonsGuardados));
             alert('Pokémon guardado correctamente');
-            //console.log(localStorage);
         } else {
             alert('El Pokémon ya está guardado');
         }
