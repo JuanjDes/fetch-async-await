@@ -120,8 +120,8 @@ const resetBtn = document.getElementById('resetBtn');
                 pokemonCard.appendChild(peso);
                 pokemonCard.appendChild(nombre);
 
-                /* guardo en pokemon los datos del pokemon: nombre, altura, peso e imagen
-                   const pokemon lo utilizo en el evento click */
+                /* guardo en pokemon (objeto) los datos del pokemon: nombre, altura, peso e imagen
+                   pokemon (objeto) lo utilizo en el evento click */
                 const pokemon = {
                     nombre: pokemonData.name,
                     altura: pokemonData.height,
@@ -129,7 +129,8 @@ const resetBtn = document.getElementById('resetBtn');
                     imagen: pokemonData.sprites.other['official-artwork'].front_default,
                 };
 
-                // asignamos un evento al hacer click en la tarjeta del pokemon
+                /* asignamos un evento al hacer click en la tarjeta del pokemon 
+                    llamo a la funcion guardarPokemon y le paso los datos de la constante pokemon*/
                 pokemonCard.addEventListener('click', () => guardarPokemon(pokemon));
 
                 
@@ -176,6 +177,8 @@ const resetBtn = document.getElementById('resetBtn');
     }
 
 // ------------------------------------------------ FUNCION PARA GUARDAR EL POKEMON SELECCIONADO ------------------------------
+    
+    // guardo en localStorage los datos que tengo en pokemon: imagen, altura, peso y nombre
     function guardarPokemon(pokemon) {
         let pokemonsGuardados = JSON.parse(localStorage.getItem('pokemons')) || [];
 
