@@ -1,4 +1,5 @@
 # Creación de una Pokédex con HTML, CSS y JavaScript
+Ver Ejercicio Terminado en el navegador: https://juanjdes.github.io/fetch-async-await/
 
 En este ejercicio, construiremos una Pokédex básica utilizando HTML, CSS y JavaScript. La Pokédex mostrará una lista de Pokémon obtenidos de la API pública de Pokémon. Los usuarios podrán navegar entre las páginas de Pokémon, buscar Pokémon específicos y ver detalles básicos de cada uno.
 
